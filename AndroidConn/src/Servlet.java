@@ -1,5 +1,3 @@
-
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,43 +18,35 @@ import org.json.simple.JSONObject;
 import dao.AdminUserDao;
 import dao.ClientUserDao;
 import dao.OrderDao;
-import dao.OrderDao2;
 import dao.ProductDao;
 import vo.AdminUser;
 import vo.ClientUser;
 import vo.Order;
-import vo.Order2;
 import vo.Product;
 
 @WebServlet("*.do")
-public class ContServlet extends HttpServlet {
+public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public ContServlet() {
+	public Servlet() {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void doHandle(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
+	private void doHandle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
-		
 		PrintWriter out = response.getWriter();
-
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String action = requestURI.substring(contextPath.length());
 
-
-		/* index진입점, mainForm contents(사진 9개) 찾아와서 출력, 처음 카테고리 new 라서 최신순으로 출력된다, cno(등록순서)로 내림차순 정렬 */
 		if (action.equals("/json.do")) {
 			List<Product> list=ProductDao.getInstance().selectAll();
 			//request.setAttribute("list", list);
 			//request.getRequestDispatcher("json.jsp").forward(request, response);
 			
 			
-			
+
 			JSONObject totalObject = new JSONObject();
 			JSONArray contentArray = new JSONArray();
 			
@@ -81,16 +71,9 @@ public class ContServlet extends HttpServlet {
 		}
 		
 		
-		else if (action.equals("/order.do")) {
-			List<Order2> list=OrderDao2.getInstance().selectAll2();
-			//System.out.println(list);
-			//request.setAttribute("list", list);
-			//request.getRequestDispatcher("json.jsp").forward(request, response);
-		}
-		
 		else if (action.equals("/adminUser.do")) {
-			List<AdminUser> list=AdminUserDao.getInstance().selectAll();
-			System.out.println(list);
+			//List<AdminUser> list=AdminUserDao.getInstance().selectAll();
+			//System.out.println(list);
 			//request.setAttribute("list", list);
 			//request.getRequestDispatcher("json.jsp").forward(request, response);
 		}
@@ -138,13 +121,56 @@ public class ContServlet extends HttpServlet {
 			System.out.println(user);
 			System.out.println(op);
 			
-			Order2 od=new Order2(name,op,user); 
-			OrderDao2.getInstance().insert(od);
+			Order od=new Order(name,op,user); 
+			OrderDao.getInstance().insert(od);
 			 
 			
 		}
 		
+		else if (action.equals("/loginForm.do")) {
+			System.out.println("d");
+			request.getRequestDispatcher("adminPage/loginForm.jsp").forward(request, response);
+		}
 		
+		else if (action.equals("/order.do")) {
+
+			List<Order> list = OrderDao.getInstance().selectAll_name_ver();
+			request.setAttribute("list", list);			
+
+			System.out.println(list);
+			
+			
+			
+			request.getRequestDispatcher("adminPage/mainForm.jsp").forward(request, response);
+		}
+		
+		else if (action.equals("/complete.do")) {
+			List<Order> list = OrderDao.getInstance().selectAll();
+			System.out.println(list);
+			request.setAttribute("list", list);
+			request.getRequestDispatcher("adminPage/CompleteOrderList.jsp").forward(request, response);
+		}
+		
+		else if (action.equals("/Product.do")) {
+			request.getRequestDispatcher("adminPage/ProductRegistration.jsp").forward(request, response);
+		}
+		
+		else if (action.equals("/login.do")) {
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			System.out.println(id+pw);
+			int n = AdminUserDao.getInstance().login(id, pw);
+
+			if (n == 1) {
+				HttpSession session = request.getSession();
+				session.setAttribute("session_id", id);
+				out.print("<script> alert('로그인 되었어요'); location.href='order.do'; </script>");
+			} else if (n == 0) {
+				out.print("<script> alert('비밀번호를 확인하세요'); location.href='loginForm.do'; </script>");
+			} else {
+				out.print("<script> alert('아이디를 확인하세요'); location.href='loginForm.do'; </script>");
+			}
+		}
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
