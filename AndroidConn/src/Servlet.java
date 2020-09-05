@@ -44,13 +44,15 @@ public class Servlet extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String action = requestURI.substring(contextPath.length());
 
+		
+		/*----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----*/
+		/* Android request 처리용 servlet*/
+		
+		/* android에 제공하는 product json page */
 		if (action.equals("/json.do")) {
 			List<Product> list=ProductDao.getInstance().selectAll();
-
 			JSONObject totalObject = new JSONObject();
 			JSONArray contentArray = new JSONArray();
-			
-			/* json date는 전송 불가능 ? */
 			
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject contentInfo = new JSONObject();
@@ -64,130 +66,14 @@ public class Servlet extends HttpServlet {
 			}
 			totalObject.put("contents", contentArray);
 			String jsonInfo = totalObject.toJSONString();
-			System.out.println(jsonInfo);
 			out.print(jsonInfo);
-			
 		}
 		
-		
-		else if (action.equals("/adminUser.do")) {
-			//List<AdminUser> list=AdminUserDao.getInstance().selectAll();
-			//System.out.println(list);
-			//request.setAttribute("list", list);
-			//request.getRequestDispatcher("json.jsp").forward(request, response);
-		}
-		
-		else if (action.equals("/clientUser.do")) {
-			List<ClientUser> list=ClientUserDao.getInstance().selectAll();
-			System.out.println(list);
-			//request.setAttribute("list", list);
-			//request.getRequestDispatcher("json.jsp").forward(request, response);
-		}
-		
-		else if (action.equals("/signup.do")) {
-			String id=request.getParameter("id");
-			String pw=request.getParameter("pw");
-			ClientUser client=new ClientUser(id,pw);
-			boolean flag=ClientUserDao.getInstance().insert(client);
-			if(flag) {
-				System.out.println("회원ㅇ가입 성공");
-				out.print("a");
-			}else {
-				System.out.println("실패");
-				out.print("b");
-			}
-		}
-		
-		else if (action.equals("/signin.do")) {
-			String id=request.getParameter("id");
-			String pw=request.getParameter("pw");
-			boolean flag=ClientUserDao.getInstance().login(id,pw);
-			if(flag) {
-				System.out.println("로그인 성공");
-			}else {
-				System.out.println("실패");
-			}
-		}
-
-		
-		else if (action.equals("/test.do")) {
-			System.out.println("zzzzzz");
-			int name=Integer.parseInt(request.getParameter("name"));
-			String op=request.getParameter("option");
-			String user=request.getParameter("user");
-			
-			System.out.println(name);
-			System.out.println(user);
-			System.out.println(op);
-			
-			Order od=new Order(name,op,user); 
-			OrderDao.getInstance().insert(od);
-			 
-			
-		}
-		
-		else if (action.equals("/loginForm.do")) {
-			System.out.println("d");
-			request.getRequestDispatcher("adminPage/loginForm.jsp").forward(request, response);
-		}
-		
-		else if (action.equals("/order.do")) {
-			List<OrderTable> ttt=OrderTableDao.getInstance().selectAll();
-			System.out.println(ttt);
-			request.setAttribute("ttt", ttt);
-			
-			List<Order> list = OrderDao.getInstance().selectAll_name_ver();
-			request.setAttribute("list", list);			
-
-			System.out.println(list);
-			
-			
-			request.getRequestDispatcher("adminPage/mainForm.jsp").forward(request, response);
-		}
-		
-		else if (action.equals("/complete.do")) {
-			List<OrderTable> ttt=OrderTableDao.getInstance().selectAll2();
-			request.setAttribute("ttt", ttt);
-			System.out.println(ttt);
-			
-			List<Order> list = OrderDao.getInstance().selectAll_name_ver2();
-			request.setAttribute("list", list);
-			System.out.println(list);
-			
-			request.getRequestDispatcher("adminPage/mainForm.jsp").forward(request, response);
-			
-		}
-		
-		else if (action.equals("/Product.do")) {
-			request.getRequestDispatcher("adminPage/ProductRegistration.jsp").forward(request, response);
-		}
-		
-		else if (action.equals("/login.do")) {
-			String id = request.getParameter("id");
-			String pw = request.getParameter("pw");
-			System.out.println(id+pw);
-			int n = AdminUserDao.getInstance().login(id, pw);
-
-			if (n == 1) {
-				HttpSession session = request.getSession();
-				session.setAttribute("session_id", id);
-				out.print("<script> alert('로그인 되었어요'); location.href='order.do'; </script>");
-			} else if (n == 0) {
-				out.print("<script> alert('비밀번호를 확인하세요'); location.href='loginForm.do'; </script>");
-			} else {
-				out.print("<script> alert('아이디를 확인하세요'); location.href='loginForm.do'; </script>");
-			}
-		}
-		
+		/* android에 제공하는 option json page */
 		else if (action.equals("/optionJson.do")) {
 			List<Option> list=OptionDao.getInstance().selectAll();
-			//request.setAttribute("list", list);
-			//request.getRequestDispatcher("json.jsp").forward(request, response);
-
 			JSONObject totalObject = new JSONObject();
 			JSONArray contentArray = new JSONArray();
-			
-			/* json date는 전송 불가능 ? */
 			
 			for (int i = 0; i < list.size(); i++) {
 				JSONObject contentInfo = new JSONObject();
@@ -198,24 +84,115 @@ public class Servlet extends HttpServlet {
 			}
 			totalObject.put("contents", contentArray);
 			String jsonInfo = totalObject.toJSONString();
-			System.out.println(jsonInfo);
 			out.print(jsonInfo);
-			
-			
-		}
-		else if (action.equals("/asas.do")) {
-			System.out.println("sesssssssssssssssr");
-			int no=Integer.parseInt(request.getParameter("no"));
-			System.out.println(no);
-			boolean flag=OrderDao.getInstance().updateState(no);
-			if(flag){
-				out.print("<script> alert('update complete'); location.href='order.do'; </script>");
-			}else {
-				out.print("<script> alert('update fail'); location.href='order.do'; </script>");
-			}
-			//request.getRequestDispatcher("adminPage/ProductRegistration.jsp").forward(request, response);
 		}
 		
+		/* Android client용 회원가입 */
+		else if (action.equals("/signup.do")) {
+			String id=request.getParameter("id");
+			String pw=request.getParameter("pw");
+			ClientUser client=new ClientUser(id,pw);
+			boolean flag=ClientUserDao.getInstance().insert(client);
+			if(flag) {
+				System.out.println("회원가입 성공");
+				out.print("complete");
+				/* 이 값으로 Android에서 성공 또는 실패 처리 */
+			}else {
+				System.out.println("로그인 실패");
+				out.print("fail");
+				/* 이 값으로 Android에서 성공 또는 실패 처리 */
+			}
+		}
+		
+		/* Android client용 로그인 */
+		else if (action.equals("/signin.do")) {
+			String id=request.getParameter("id");
+			String pw=request.getParameter("pw");
+			boolean flag=ClientUserDao.getInstance().login(id,pw);
+			if(flag) {
+				System.out.println("로그인 성공");
+				out.print("complete");
+			}else {
+				System.out.println("로그인 실패");
+				out.print("fail");
+			}
+		}
+
+		/* Android 장바구니 추가하면 order list에 추가 */
+		else if (action.equals("/test.do")) {
+			int name=Integer.parseInt(request.getParameter("name"));
+			String op=request.getParameter("option");
+			String user=request.getParameter("user");
+			/* 상품 이름(번호,int), 옵션, userID 받아와서 order Table에 추가 */
+			
+			/*System.out.println(name);
+			System.out.println(user);
+			System.out.println(op);*/
+			
+			Order order=new Order(name,op,user); 
+			OrderDao.getInstance().insert(order);
+		}
+
+		
+		/*----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----*/
+		/* Admin Page request 처리용 servlet*/
+		
+		/* index의 진입점, login PAGE */
+		else if (action.equals("/loginForm.do")) {
+			request.getRequestDispatcher("adminPage/loginForm.jsp").forward(request, response);
+		}
+		
+		/* 로그인 request처리용 로직 */
+		else if (action.equals("/login.do")) {
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			int n = AdminUserDao.getInstance().login(id, pw);
+
+			if (n == 1) {
+				HttpSession session = request.getSession();
+				session.setAttribute("session_id", id);
+				out.print("<script> alert('로그인 되었어요'); location.href='orderListForm.do'; </script>");
+			} else if (n == 0) {
+				out.print("<script> alert('비밀번호를 확인하세요'); location.href='loginForm.do'; </script>");
+			} else {
+				out.print("<script> alert('아이디를 확인하세요'); location.href='loginForm.do'; </script>");
+			}
+		}
+		
+		/* orderListForm(주문들어온 리스트)으로 이동 */
+		else if (action.equals("/orderListForm.do")) {
+			List<OrderTable> orderTable=OrderTableDao.getInstance().selectAll();
+			/* 주문번호들 묶어서 분류하기 위한 로직 */
+			request.setAttribute("ttt", orderTable);
+			
+			List<Order> list = OrderDao.getInstance().selectAll_name_ver();
+			request.setAttribute("list", list);			
+			
+			request.getRequestDispatcher("adminPage/orderListForm.jsp").forward(request, response);
+		}
+		
+		/* orderListForm(주문들어온거 처리 완료 된 리스트)으로 이동 */
+		else if (action.equals("/orderListFormComplete.do")) {
+			List<OrderTable> orderTable=OrderTableDao.getInstance().selectAll2();
+			/* 주문번호들 묶어서 분류하기 위한 로직 */
+			request.setAttribute("ttt", orderTable);
+			
+			List<Order> list = OrderDao.getInstance().selectAll_name_ver2();
+			request.setAttribute("list", list);
+			
+			request.getRequestDispatcher("adminPage/orderListForm.jsp").forward(request, response);
+		}
+
+		/* Admin PAGE order list에서 주문 들어온거 다 만들고 DONE 버튼 누르면 시행됨 */ 
+		else if (action.equals("/orderComplete.do")) {
+			int no=Integer.parseInt(request.getParameter("no"));
+			boolean flag=OrderDao.getInstance().updateState(no);
+			if(flag){
+				out.print("<script> alert('update complete'); location.href='orderListForm.do'; </script>");
+			}else {
+				out.print("<script> alert('update fail'); location.href='orderListForm.do'; </script>");
+			}
+		}
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

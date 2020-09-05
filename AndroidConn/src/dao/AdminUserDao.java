@@ -10,9 +10,6 @@ import java.util.List;
 import vo.AdminUser;
 
 public class AdminUserDao {
-	private String id;
-	private String pw;
-
 	private AdminUserDao() {}
 	
 	private static AdminUserDao aDao=new AdminUserDao();
@@ -57,29 +54,4 @@ public class AdminUserDao {
 		}
 		return n;
 	}
-//	public List<AdminUser> selectAll(){
-//		String sql = "select * from adminuser";
-//
-//		List<AdminUser> list = new ArrayList<AdminUser>();
-//		Connection conn = null;
-//		PreparedStatement ps = null;
-//		ResultSet rs = null;
-//
-//		try {
-//			conn = DBConn.getConn();
-//			ps = conn.prepareStatement(sql);
-//			rs = ps.executeQuery();
-//			while (rs.next()) {
-//				AdminUser admin = new AdminUser();
-//				admin.setId(rs.getString("id"));
-//				admin.setPw(rs.getString("pw"));
-//				list.add(admin);
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			DBConn.close(conn, ps, rs);
-//		}
-//		return list;
-//	}
 }

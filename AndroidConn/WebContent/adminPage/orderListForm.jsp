@@ -36,7 +36,7 @@
 																
 															</ul>
 															<div class="aligncenter">
-																<a href="asas.do?no=${ttt.order_num}" class="link1"><span><span>Done</span></span></a>
+																<a href="orderComplete.do?no=${ttt.order_num}" class="link1"><span><span>Done</span></span></a>
 															</div>
 															<!-- 위에 버튼 누르면 DB에 상태를 1로 업데이트 해줘야 함 -->
 														</div>

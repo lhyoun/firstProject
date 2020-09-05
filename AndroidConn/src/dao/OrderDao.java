@@ -148,7 +148,7 @@ public class OrderDao {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
-		String sql = "insert into order10 values(ordernum9.nextval,0011,?,?,?,'주문완료',to_char(sysdate,'yyyy.mm.dd hh24:mi'))";
+		String sql = "insert into order10 values(ordernum9.nextval,0011,?,?,?,'주문완료',to_char(sysdate,'yyyy.mm.dd hh24:mi'),1)";
 		
 		try {
 			conn = DBConn.getConn();

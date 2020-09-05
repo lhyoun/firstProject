@@ -23,8 +23,6 @@ public class ClientUserDao {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		//asdasdjaskldj
-		
 		String sql = "select * from client_user";
 
 		try {

@@ -12,8 +12,6 @@ public class OrderTable {
 		
 	}
 	
-	
-	
 	public OrderTable(int order_num, String order_key, int order_count) {
 		super();
 		this.order_num = order_num;
@@ -21,19 +19,13 @@ public class OrderTable {
 		this.order_count = order_count;
 	}
 
-
-
 	public int getOrder_count() {
 		return order_count;
 	}
 
-
-
 	public void setOrder_count(int order_count) {
 		this.order_count = order_count;
 	}
-
-
 
 	public OrderTable() {}
 
@@ -57,6 +49,4 @@ public class OrderTable {
 	public String toString() {
 		return "OrderTable [order_num=" + order_num + ", order_key=" + order_key + ", order_count=" + order_count + "]";
 	}
-	
-	
 }
