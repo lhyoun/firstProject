@@ -155,6 +155,7 @@ public class Servlet extends HttpServlet {
 			System.out.println(list);
 			
 			request.getRequestDispatcher("adminPage/mainForm.jsp").forward(request, response);
+			
 		}
 		
 		else if (action.equals("/Product.do")) {
