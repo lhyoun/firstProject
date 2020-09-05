@@ -27,7 +27,7 @@ public class OrderDao {
 	}
 	
 	public List<Order> selectAll(){
-		String sql = "select * from order10";
+		String sql = "select * from order10 where order_state='주문완료'";
 
 		List<Order> list = new ArrayList<Order>();
 		Connection conn = null;
@@ -87,8 +87,7 @@ public class OrderDao {
 	}
 	
 	public List<Order> selectAll_name_ver(){
-		String sql = "select o.no, o.order_code, o.user_id, p.name, o.user_option, o.order_state, o.order_time from order10 o, product9 p where o.no=p.no";
-		//String sql = "select * from order10";
+		String sql = "select o.no, o.order_code, o.user_id, p.name, o.user_option, o.order_state, o.order_time from order10 o, product9 p where o.pno=p.no and o.order_state='주문완료'";
 
 		List<Order> list = new ArrayList<Order>();
 		Connection conn = null;
@@ -99,19 +98,14 @@ public class OrderDao {
 			conn = DBConn.getConn();
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
-			
+			System.out.println("rs없음");
 			while (rs.next()) {
-				System.out.println("1");
 				Order order = new Order();
 				order.setOrder_code(rs.getInt("order_code")); //주문번호
 				order.setOrder_time(rs.getString("order_time")); //주문시간
-				System.out.println("1");
 				order.setName(rs.getNString("name")); //제품이름
-				//order.setName("ssss"); //제품이름
 				order.setUser_option(rs.getString("user_option"));
 				order.setOrder_state(rs.getString("order_state"));	
-				System.out.println("zz");
-				System.out.println(order);
 				list.add(order);
 			}
 		} catch (SQLException e) {
@@ -120,5 +114,34 @@ public class OrderDao {
 			DBConn.close(conn, ps, rs);
 		}
 		return list;
+	}
+
+	
+	
+	public boolean updateState(int no) {
+		boolean flag=false;
+		String sql = "update order10 set order_state='수령완료' where order_code=?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = DBConn.getConn();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,no);
+			int n=pstmt.executeUpdate();
+			if(n>=1) {
+				flag=true;
+				System.out.println("update complete");
+			}else {
+				System.out.println("sssssssss999999999999999999999999999999999999999999999999999999999999999999999999999999");
+				System.out.println(sql);
+				System.out.println("update fail");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConn.close(conn, pstmt);
+		}
+		return flag;
 	}
 }

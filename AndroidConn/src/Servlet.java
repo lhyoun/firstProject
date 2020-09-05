@@ -17,11 +17,15 @@ import org.json.simple.JSONObject;
 
 import dao.AdminUserDao;
 import dao.ClientUserDao;
+import dao.OptionDao;
 import dao.OrderDao;
+import dao.OrderTableDao;
 import dao.ProductDao;
 import vo.AdminUser;
 import vo.ClientUser;
+import vo.Option;
 import vo.Order;
+import vo.OrderTable;
 import vo.Product;
 
 @WebServlet("*.do")
@@ -42,10 +46,6 @@ public class Servlet extends HttpServlet {
 
 		if (action.equals("/json.do")) {
 			List<Product> list=ProductDao.getInstance().selectAll();
-			//request.setAttribute("list", list);
-			//request.getRequestDispatcher("json.jsp").forward(request, response);
-			
-			
 
 			JSONObject totalObject = new JSONObject();
 			JSONArray contentArray = new JSONArray();
@@ -66,7 +66,6 @@ public class Servlet extends HttpServlet {
 			String jsonInfo = totalObject.toJSONString();
 			System.out.println(jsonInfo);
 			out.print(jsonInfo);
-			
 			
 		}
 		
@@ -133,12 +132,14 @@ public class Servlet extends HttpServlet {
 		}
 		
 		else if (action.equals("/order.do")) {
-
+			List<OrderTable> ttt=OrderTableDao.getInstance().selectAll();
+			System.out.println("-------------------------------");
+			System.out.println(ttt);
+			request.setAttribute("ttt", ttt);
 			List<Order> list = OrderDao.getInstance().selectAll_name_ver();
 			request.setAttribute("list", list);			
 
 			System.out.println(list);
-			
 			
 			
 			request.getRequestDispatcher("adminPage/mainForm.jsp").forward(request, response);
@@ -171,6 +172,44 @@ public class Servlet extends HttpServlet {
 				out.print("<script> alert('아이디를 확인하세요'); location.href='loginForm.do'; </script>");
 			}
 		}
+		
+		else if (action.equals("/optionJson.do")) {
+			List<Option> list=OptionDao.getInstance().selectAll();
+			//request.setAttribute("list", list);
+			//request.getRequestDispatcher("json.jsp").forward(request, response);
+
+			JSONObject totalObject = new JSONObject();
+			JSONArray contentArray = new JSONArray();
+			
+			/* json date는 전송 불가능 ? */
+			
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject contentInfo = new JSONObject();
+				contentInfo.put("no", list.get(i).getNo());
+				contentInfo.put("category", list.get(i).getCategory());
+				contentInfo.put("option", list.get(i).getOption());
+				contentArray.add(contentInfo);
+			}
+			totalObject.put("contents", contentArray);
+			String jsonInfo = totalObject.toJSONString();
+			System.out.println(jsonInfo);
+			out.print(jsonInfo);
+			
+			
+		}
+		else if (action.equals("/asas.do")) {
+			System.out.println("sesssssssssssssssr");
+			int no=Integer.parseInt(request.getParameter("no"));
+			System.out.println(no);
+			boolean flag=OrderDao.getInstance().updateState(no);
+			if(flag){
+				out.print("<script> alert('update complete'); location.href='order.do'; </script>");
+			}else {
+				out.print("<script> alert('update fail'); location.href='order.do'; </script>");
+			}
+			//request.getRequestDispatcher("adminPage/ProductRegistration.jsp").forward(request, response);
+		}
+		
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
