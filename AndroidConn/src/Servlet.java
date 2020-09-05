@@ -133,9 +133,9 @@ public class Servlet extends HttpServlet {
 		
 		else if (action.equals("/order.do")) {
 			List<OrderTable> ttt=OrderTableDao.getInstance().selectAll();
-			System.out.println("-------------------------------");
 			System.out.println(ttt);
 			request.setAttribute("ttt", ttt);
+			
 			List<Order> list = OrderDao.getInstance().selectAll_name_ver();
 			request.setAttribute("list", list);			
 
@@ -146,10 +146,15 @@ public class Servlet extends HttpServlet {
 		}
 		
 		else if (action.equals("/complete.do")) {
-			List<Order> list = OrderDao.getInstance().selectAll();
-			System.out.println(list);
+			List<OrderTable> ttt=OrderTableDao.getInstance().selectAll2();
+			request.setAttribute("ttt", ttt);
+			System.out.println(ttt);
+			
+			List<Order> list = OrderDao.getInstance().selectAll_name_ver2();
 			request.setAttribute("list", list);
-			request.getRequestDispatcher("adminPage/CompleteOrderList.jsp").forward(request, response);
+			System.out.println(list);
+			
+			request.getRequestDispatcher("adminPage/mainForm.jsp").forward(request, response);
 		}
 		
 		else if (action.equals("/Product.do")) {
