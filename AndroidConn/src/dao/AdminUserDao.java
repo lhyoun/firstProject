@@ -33,7 +33,7 @@ public class AdminUserDao {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, id);
 			rs = ps.executeQuery();
-			
+
 			if(rs.next()) {
 				if(pw.equals(rs.getString(1))) {
 					n=1;

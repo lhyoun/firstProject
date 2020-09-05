@@ -24,7 +24,7 @@ public class OrderDao {
 	
 	/* 주문완료(결제 완료 된[주문완료] order list 상품 번호를 상품 이름으로 출력)  */
 	public List<Order> selectAll_name_ver(){
-		String sql = "select o.no, o.order_code, o.user_id, p.name, o.user_option, o.order_state, o.order_time from order10 o, product9 p where o.pno=p.no and o.order_state='주문완료'";
+		String sql = "select o.no, o.order_code, o.user_id, p.name, o.user_option, o.order_state, o.order_time from order10 o, product9 p where o.pno=p.no and o.order_state='주문완료' order by order_code";
 
 		List<Order> list = new ArrayList<Order>();
 		Connection conn = null;
