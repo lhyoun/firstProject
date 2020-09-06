@@ -110,7 +110,7 @@ label{
 														
 														
 														<div class="aligncenter">
-															<a href="#" class="link1" id="btn-modify"><span><span>Modify</span></span></a>
+															<a href="#" class="link1"><span><span>Modify</span></span></a>
 															<a href="#" class="link1"><span><span>Delete</span></span></a>
 														</div>
 														
@@ -132,10 +132,7 @@ label{
 </section>
 
 <script type="text/javascript">
- 	$("#btn-modify").on('click', function() {
-		alert("mo click");
-		return false;
-	}); 
+
 </script>
 </body>
 </html>

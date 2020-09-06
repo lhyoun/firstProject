@@ -196,4 +196,27 @@ public class OrderDao {
 		}
 		return maxCode;
 	}
+	
+	public String orderState(int n){
+		String sql = "select order_state from order10 where order_code="+n;
+		String state = "null";
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn = DBConn.getConn();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			rs.next();
+			state=rs.getString("order_state");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConn.close(conn, ps, rs);
+		}
+		return state;
+	}
+	
+	
 }

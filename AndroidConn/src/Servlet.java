@@ -134,7 +134,12 @@ public class Servlet extends HttpServlet {
 			Order order=new Order(orderCode,name,op,user); 
 			OrderDao.getInstance().insert(order);
 		}
-
+		/* 새로운 주문에 order code를 부여하기 위함(한 장바구니에서 들어온 요청들은 동일한 order code를 부여해야 함) */
+		else if (action.equals("/maxCode.do")) {
+			int maxCode=OrderDao.getInstance().MaxCode()+1;
+			out.print("order_code"+maxCode+"order_code");			
+		}
+		
 		
 		/*----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----*/
 		/* Admin Page request 처리용 servlet*/
@@ -209,10 +214,16 @@ public class Servlet extends HttpServlet {
 			request.getRequestDispatcher("adminPage/ProductListForm.jsp").forward(request, response);
 		}
 		
-		else if (action.equals("/maxCode.do")) {
-			int maxCode=OrderDao.getInstance().MaxCode();
-			out.print("order_code"+maxCode+"order_code");			
+		else if (action.equals("/orderSate.do")) {
+			
+			int no=Integer.parseInt(request.getParameter("code"));
+			System.out.println(no);
+			
+			String state=OrderDao.getInstance().orderState(no);
+			out.print(state);
 		}
+		
+
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
