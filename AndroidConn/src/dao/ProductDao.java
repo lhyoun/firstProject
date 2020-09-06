@@ -19,7 +19,7 @@ public class ProductDao {
 	}
 	
 	public List<Product> selectAll(){
-		String sql = "select * from product9";
+		String sql = "select * from product9 order by no";
 
 		List<Product> list = new ArrayList<Product>();
 		Connection conn = null;

@@ -39,7 +39,13 @@ public class Order {
 
 	
 	
-
+	public Order(int order_code, int pno, String user_option, String user_id) {
+		super();
+		this.order_code = order_code;
+		this.pno = pno;
+		this.user_option = user_option;
+		this.user_id = user_id;
+	}
 
 	public Order(int pno, String user_option, String user_id) {
 		super();

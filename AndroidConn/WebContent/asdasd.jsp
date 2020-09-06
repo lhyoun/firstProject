@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<% response.sendRedirect("maxCode.do"); %>
+asd4asd
 </body>
 </html>

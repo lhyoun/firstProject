@@ -123,13 +123,15 @@ public class Servlet extends HttpServlet {
 			int name=Integer.parseInt(request.getParameter("name"));
 			String op=request.getParameter("option");
 			String user=request.getParameter("user");
+			int orderCode=Integer.parseInt(request.getParameter("code"));
 			/* 상품 이름(번호,int), 옵션, userID 받아와서 order Table에 추가 */
 			
 			/*System.out.println(name);
 			System.out.println(user);
-			System.out.println(op);*/
+			System.out.println(op);
+			System.out.println(orderCode);*/
 			
-			Order order=new Order(name,op,user); 
+			Order order=new Order(orderCode,name,op,user); 
 			OrderDao.getInstance().insert(order);
 		}
 
@@ -192,6 +194,24 @@ public class Servlet extends HttpServlet {
 			}else {
 				out.print("<script> alert('update fail'); location.href='orderListForm.do'; </script>");
 			}
+		}
+		
+		
+		
+		
+		/*---------------------------------------------------*/
+
+		
+		else if (action.equals("/ProductListForm.do")) {
+			List<Product> list = ProductDao.getInstance().selectAll();
+			request.setAttribute("list", list);
+			System.out.println(list);
+			request.getRequestDispatcher("adminPage/ProductListForm.jsp").forward(request, response);
+		}
+		
+		else if (action.equals("/maxCode.do")) {
+			int maxCode=OrderDao.getInstance().MaxCode();
+			out.print("order_code"+maxCode+"order_code");			
 		}
 	}
 

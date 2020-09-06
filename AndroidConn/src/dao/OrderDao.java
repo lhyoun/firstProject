@@ -148,14 +148,15 @@ public class OrderDao {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
-		String sql = "insert into order10 values(ordernum9.nextval,0011,?,?,?,'주문완료',to_char(sysdate,'yyyy.mm.dd hh24:mi'),1)";
+		String sql = "insert into order10 values(ordernum9.nextval,?,?,?,?,'주문완료',to_char(sysdate,'yyyy.mm.dd hh24:mi'),1)";
 		
 		try {
 			conn = DBConn.getConn();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, order.getUser_id());
-			ps.setInt(2, order.getPno());
-			ps.setString(3, order.getUser_option());
+			ps.setInt(1, order.getOrder_code());
+			ps.setString(2, order.getUser_id());
+			ps.setInt(3, order.getPno());
+			ps.setString(4, order.getUser_option());
 		
 			int n = ps.executeUpdate();
 			
@@ -171,5 +172,28 @@ public class OrderDao {
 			DBConn.close(conn, ps);
 		}
 		return flag;
+	}
+	
+	
+	
+	public int MaxCode(){
+		String sql = "select max(order_code) as max_code from order10";
+		int maxCode = 0;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn = DBConn.getConn();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			rs.next();
+			maxCode=rs.getInt("max_code");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConn.close(conn, ps, rs);
+		}
+		return maxCode;
 	}
 }
