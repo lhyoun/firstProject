@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<% response.sendRedirect("maxCode.do"); %>
+	<% response.sendRedirect("loginForm.do"); %>
 </body>
 </html>

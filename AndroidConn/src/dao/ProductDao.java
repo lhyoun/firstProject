@@ -18,6 +18,32 @@ public class ProductDao {
 		return pDao;
 	}
 	
+	public List<Product> selectCat(){ //카테고리 하나만 출력
+		String sql = "select distinct category from product9";
+
+		List<Product> list2 = new ArrayList<Product>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBConn.getConn();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Product ProC = new Product();
+				ProC.setCategory(rs.getString("category"));
+				System.out.println(ProC);
+				list2.add(ProC);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConn.close(conn, ps, rs);
+		}
+		return list2;
+	}
+	
 	public List<Product> selectAll(){
 		String sql = "select * from product9 order by no";
 

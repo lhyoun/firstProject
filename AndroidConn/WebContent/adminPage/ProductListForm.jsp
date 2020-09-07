@@ -49,6 +49,69 @@ label{
 <section id="content">
 	<div class="container">
 		<div id="mainContests" class="row">
+			<!-- 상품 등록 -->
+			<div class="col-md-12 text-center">
+				<div class="box col-1 maxheight">
+					<div class="border-right maxheight">
+						<div class="border-bot maxheight">
+							<div class="border-left maxheight">
+								<div class="left-top-corner maxheight">
+									<div class="right-top-corner maxheight">
+										<div class="right-bot-corner maxheight">
+											<div class="left-bot-corner maxheight">
+
+												<!-- 상품등록 시작 -->
+												<div class="inner">
+													<span class="title">상품 등록</span>
+													<br><br>
+													<form action="write.do" enctype="multipart/form-data">
+														<label for="exampleInputEmail1">구분</label>
+														<br><br><br>
+														<div class="btn-group" style="float: left;">
+																<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+																	카테고리 <span class="caret"></span>
+																</button>
+															<ul class="dropdown-menu" role="menu">
+															<c:forEach items="${list2}" var="ProC">
+																<li><a href="#">${ProC.category}</a></li>
+															</c:forEach>
+<!-- 																<li class="divider"></li> -->
+<!-- 																<li><a href="#">구분선 할거임?</a></li> -->
+															</ul>
+															<br>
+														</div>
+														
+														<br><br><br><br>
+
+														<div class="form-group">
+															<label for="exampleInputEmail1">상품명</label>
+															 <input	type="text" class="form-control" id="exampleInputEmail1" placeholder="상품명을 입력하세요">
+														</div>
+														<div class="form-group">
+															<label for="exampleInputPassword1">가격</label>
+															 <input	type="text" class="form-control" id="exampleInputPassword1" placeholder="가격을 입력하세요">
+														</div>
+														<div class="form-group">
+															<label for="exampleInputEmail1">상품 설명</label>
+															<textarea class="form-control" rows="5" placeholder="상품 설명을 입력하세요"></textarea>
+														</div>
+														<div class="form-group">
+															<label for="exampleInputFile">상품 이미지</label>
+															 <input	type="file" id="exampleInputFile">
+														</div>
+														<button type="submit" class="btn btn-default">등록</button>
+													</form>
+												</div>
+												<!-- 상품등록 종료 -->
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<c:forEach items="${list}" var="Pro">
 				<div class="col-md-6 text-center">
@@ -63,57 +126,38 @@ label{
 												
 													<!-- 상품 리스트 -->
 													<div class="inner">
-														<!-- 상품 명 -->
-														<div class="form-group">
-															<input	type="text" class="form-control pname" id="exampleInputEmail1" value="${Pro.name}">
-														</div>
-														<br>
-														<!-- 상품 이미지 -->														
-														<ul class="info-list" style="text-align: center;">
-															<li class="menu" style="display: inline-block;">
-																<img src="${Pro.image_name}">
-																
-																<span style="font-size: 15px; float: left;">
-																
-																	<!-- 드롭다운 -->
-																	<label for="exampleInputEmail1">구분</label>
-																	<br><br>
-																	<div class="btn-group" style="float: left;">
-																		<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-																			카테고리 
-																			<span class="caret"></span>
-																		</button>
-																		<ul class="dropdown-menu" role="menu">
-																			<li><a href="#">카테고리</a></li>
-																			<li><a href="#">Another action</a></li>
-																			<li><a href="#">Something else here</a></li>
-																			<li class="divider"></li>
-																			<li><a href="#">Separated link</a></li>
-																		</ul>
-																	</div>
-																	<br><br><br>
-																		
-																	<!-- 가격 -->
-																	<div class="form-group">
-																		<label for="exampleInputPassword1">가격</label>
-																 	 	<input	type="text" class="form-control" id="exampleInputPassword1" value="${Pro.price}" disabled>
-																	</div>
-																	
-																	<!-- 설명 -->
-																	<div class="form-group">
-																		<label for="exampleInputEmail1">상품 설명</label>
-																		<textarea class="form-control" rows="5" disabled>${Pro.info}</textarea>
-																	</div>
-																</span>
-															</li>
-														</ul>
-														
-														
-														<div class="aligncenter">
-															<a href="#" class="link1"><span><span>Modify</span></span></a>
-															<a href="#" class="link1"><span><span>Delete</span></span></a>
-														</div>
-														
+														<form>
+															<div class="form-group">
+																<input type="text" class="form-control pname" id="exampleInputEmail1" style="color: white;" value="${Pro.name}">
+															</div>
+															<br>
+															<ul class="info-list" style="text-align: center;">
+																<li class="menu">
+																	<img src="${Pro.image_name}">
+																	<span style="font-size: 15px; float: left;">
+																		<label for="exampleInputEmail1">구분</label>
+																		<br><br>
+																		<div class="btn-group" style="float: left;">
+																			<button type="button" class="btn btn-success dropdown-toggle active" data-toggle="dropdown" aria-expanded="false" style="background: #5CB85C;" disabled="disabled"> ${Pro.category}
+																				
+																			</button>
+
+																		</div>
+																		<br><br><br>
+																		<div class="form-group">
+																			<label for="exampleInputPassword1">가격</label>
+																			 <input type="text" class="form-control" id="exampleInputPassword1" value="${Pro.price}" style="font-size: 20px; background: transparent;" disabled="disabled">																		</div>
+																		<div class="form-group">
+																			<label for="exampleInputEmail1">상품 설명</label>
+																			 <textarea class="form-control" rows="5" style="background: transparent;" disabled="disabled">${Pro.info}</textarea>
+																		</div>
+																</li>
+															</ul>
+															<div class="aligncenter">
+                                             					<a href="#" class="link1"><span><span>Modify</span></span></a>
+                                             					<a href="#" class="link1"><span><span>Delete</span></span></a>
+                                          					</div>
+														</form>
 													</div>
 												</div>
 											</div>
@@ -125,8 +169,6 @@ label{
 					</div>
 				</div>
 			</c:forEach>
-			
-			
 		</div>
 	</div>
 </section>

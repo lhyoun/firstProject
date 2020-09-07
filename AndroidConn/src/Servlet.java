@@ -108,6 +108,8 @@ public class Servlet extends HttpServlet {
 		else if (action.equals("/signin.do")) {
 			String id=request.getParameter("id");
 			String pw=request.getParameter("pw");
+			System.out.println(id);
+			System.out.println(pw);
 			boolean flag=ClientUserDao.getInstance().login(id,pw);
 			if(flag) {
 				System.out.println("로그인 성공");
@@ -210,7 +212,6 @@ public class Servlet extends HttpServlet {
 		else if (action.equals("/ProductListForm.do")) {
 			List<Product> list = ProductDao.getInstance().selectAll();
 			request.setAttribute("list", list);
-			System.out.println(list);
 			request.getRequestDispatcher("adminPage/ProductListForm.jsp").forward(request, response);
 		}
 		
@@ -218,10 +219,22 @@ public class Servlet extends HttpServlet {
 			
 			int no=Integer.parseInt(request.getParameter("code"));
 			System.out.println(no);
-			
 			String state=OrderDao.getInstance().orderState(no);
 			out.print(state);
 		}
+		
+		
+		
+		
+		else if (action.equals("/threadTest.do")) {
+			System.out.println("ddd");
+			int code=Integer.parseInt(request.getParameter("code"));
+			System.out.println(code);
+			
+			String state=OrderDao.getInstance().orderState(code);
+			out.print(state);
+		}
+		
 		
 
 	}

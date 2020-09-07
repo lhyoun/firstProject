@@ -18,6 +18,14 @@ public class Product {
 		this.category = categroy;
 	}
 	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	public Product(String name, int price, String info, String image_name, String categroy) {
 		super();
 		this.name = name;
